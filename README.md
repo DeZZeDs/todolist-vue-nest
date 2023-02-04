@@ -28,24 +28,26 @@
 
 ## Installation with DOCKER
 
- docker env build
- docker-compose build
+```bash
+# docker env build
+$ docker-compose build
 
- docker env start
- docker-compose up -d
+# docker env start
+$ docker-compose up
 
- remove docker container (services & networks)
- docker-compose down
-
+# remove docker container (services & networks)
+$ docker-compose down
+```
 
 ## Migration
 
-- generate migration
-docker-compose run nestjs npm run typeorm:generate your_name_here
+```bash
+# generate migration
+$ docker-compose run nestjs npm run typeorm:generate YOUR_NAME_HERE
 
-- run migration
-docker-compose run nestjs npm run typeorm:run
-
+# run migration
+$ docker-compose run nestjs npm run typeorm:run
+```
 
 ## Installation without docker
 
