@@ -1,0 +1,65 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    container_name: postgres-db
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    user: root
+    volumes:
+      - /home/my_user/volumes/postgres/data:/var/lib/postgresql/data
+      - /home/my_user/volumes/postgres/config:/etc/postgresql
+  postgres_setup:
+    image: postgres
+    user: root
+    volumes:
+      - /home/my_user/volumes/postgres/data:/var/lib/postgresql/data
+      - /home/my_user/volumes/postgres/config:/etc/postgresql
+    entrypoint: [ "bash", "-c", "chmod 750 -R /var/lib/postgresql/data && chmod 750 -R /etc/postgresql" ]
+    depends_on:
+      - db
+  nestjs:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: todo-app:1.0.0
+    environment:
+      - DB_TYPE=${DB_TYPE}
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASS=${DATABASE_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_SYNC=false
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - APP_PORT=${APP_PORT}
+    ports:
+      - "3000:3000"
+    container_name: todo-app
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+      - /app/node_modules
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    container_name: nest-pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
+      - PGADMIN_LISTEN_PORT=${PGADMIN_LISTEN_PORT}
+    ports:
+      - "8080:80"
+    volumes:
+      - /home/my_user/volumes/pgadmin-data/data:/var/lib/pgadmin/data
+      - /home/my_user/volumes/pgadmin-data/config:/etc/pgadmin
+    depends_on:
+      - db
+volumes:
+  pgdata:
+  pgadmin-data:
