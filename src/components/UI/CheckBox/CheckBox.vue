@@ -1,10 +1,10 @@
 <script setup lang="ts">
   import image from "../../../assets/checkbox.svg";
   import {defineProps} from "vue";
-  const props = defineProps({
-    checked: Boolean,
-    taskId: Number
-  })
+  const props = defineProps<{
+    checked: boolean,
+    taskId: number,
+  }>();
 </script>
 
 <template>

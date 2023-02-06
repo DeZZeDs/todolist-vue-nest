@@ -2,17 +2,17 @@
   import Input from "../UI/Input/Input.vue";
   import {defineProps, ref, Ref} from "vue";
   import Button from "../UI/Button/Button.vue";
-  import {ITaskModel} from "../../models/Task";
+  import { ITaskModel } from "../../models/Task";
 
-  interface Props {
-    isActiveDone: boolean;
-    mapTasksRefs: Map<String, Ref<string>>;
-  }
+  const props = defineProps<{
+    isActiveDone: boolean,
+    mapTasksRefs: {
+      searchValue: string,
+      createValue: string,
+    }
+  }>();
 
-  const props = defineProps<Props>();
-
-  const searchRef = props.mapTasksRefs?.get('searchValue')!;
-  const createInputRef = props.mapTasksRefs?.get('createValue')!;
+  const mapTasksRefs = props.mapTasksRefs;
 
   const emit = defineEmits<{
     (e: 'addTask', value: string): void
@@ -23,7 +23,7 @@
 
   const submitForm = (event: Event) => {
     event.preventDefault();
-    createInputRef.value = '';
+    mapTasksRefs.createValue = '';
   }
 </script>
 
@@ -31,21 +31,22 @@
   <div class="form-wrapper">
     <form @submit="submitForm" class="form">
       <Input
-          v-model="searchRef"
+          v-model="mapTasksRefs.searchValue"
           :is-search="true"
           placeholder="Поиск..."
           class="searchInput"
           @input="emit('search')"
       />
+      <!-- searchInput классы именуются в kebab-case т.е. search-input -->
       <Input
-          v-model="createInputRef"
+          v-model="mapTasksRefs.createValue"
           input-type="text"
           placeholder="Введите название задачи"
           class="inputCreate"
       />
       <Button
           class="buttonAdd"
-          @click="emit('addTask', createInputRef)"
+          @click="emit('addTask', mapTasksRefs.createValue)"
       >Add</Button>
       <Button
           class="buttonAll"
