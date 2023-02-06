@@ -33,7 +33,7 @@
         @changeStatus="changeStatus"
         @removeTask="removeTask"
       />
-      <div v-show="searchTasks.length === 0">No tasks, let's create them!</div>
+      <div v-show="searchTasks.length === 0" class="empty">No tasks, let's create them!</div>
     </div>
   </div>
 </template>
@@ -52,5 +52,14 @@
   }
   .task-list {
     margin-top: 42px;
+  }
+
+  .empty {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 35px;
+    text-align: left;
+    color: #000000;
+    margin: 30px 0;
   }
 </style>
