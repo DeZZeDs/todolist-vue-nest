@@ -9,8 +9,9 @@ export default function useTasks() {
 
     const fetching = async () => {
         try {
-            const data: ITaskModel[] = await TodoService.getAll();
-            tasks.value = data;
+            const data: ITaskModel[] | undefined = await TodoService.getAll();
+            if(data)
+                tasks.value = data;
         }
         catch(e) {
             console.error(e);
@@ -41,8 +42,8 @@ export default function useTasks() {
 
     const doneAll = async () => {
         try {
-            const todos:ITaskModel[] = await TodoService.doneAll();
-            if(todos.length > 0) {
+            const todos:ITaskModel[] | undefined = await TodoService.doneAll();
+            if(todos && todos.length > 0) {
                 tasks.value = todos;
                 isActiveAllDone.value = !isActiveAllDone.value;
             }
