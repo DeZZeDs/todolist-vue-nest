@@ -3,11 +3,9 @@ import {defineProps, PropType, ComputedRef, Ref} from "vue";
   import {ITaskModel} from "../../models/Task";
   import TaskItem from "./TaskItem/TaskItem.vue";
 
-  interface Props {
+  const props = defineProps<{
     tasks: ITaskModel[]
-  }
-
-  const props = defineProps<Props>()
+  }>()
 
   const emit = defineEmits<{
     (e: "changeStatus", value: number | undefined): void

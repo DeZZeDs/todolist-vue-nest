@@ -1,6 +1,5 @@
 <script setup lang="ts">
   import searchIcon from '../../../assets/search.svg';
-  import {Ref} from "vue";
 
   interface Props {
     modelValue: string,
@@ -11,11 +10,11 @@
 
   const props = defineProps<Props>();
   const emit = defineEmits<{
-    (e: 'update:modelValue', value: string): void
+    (e: 'update:model-value', value: string): void
   }>();
 
   const updateInput = (e: Event) => {
-    emit('update:modelValue', (e.target as HTMLInputElement).value)
+    emit('update:model-value', (e.target as HTMLInputElement).value)
   }
 </script>
 
@@ -28,7 +27,7 @@
         :value="modelValue"
         @input="updateInput"
     />
-    <i v-if="props.isSearch === true" class="search-icon"><img alt="search" :src="searchIcon"/></i>
+    <i v-if="props.isSearch" class="search-icon"><img alt="search" :src="searchIcon"/></i>
   </div>
 </template>
 

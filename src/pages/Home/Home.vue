@@ -23,8 +23,8 @@
       <TodoForm
         @addTask="addTask"
         @doneAll="doneAll"
-        :isActiveDone="isActiveAllDoneRef.valueOf()"
-        :mapTasksRefs="mapTasksRefs"
+        :is-active-done="isActiveAllDoneRef.valueOf()"
+        :map-tasks-refs="mapTasksRefs"
       />
       <TodoList
         :tasks="searchTasks"
